@@ -63,13 +63,12 @@ RSpec.describe 'Usage' do
   end
 
   it "can load unloaded relationships" do
-    pending
     stub_api_request(:articles_include_author_comments)
 
     articles = Article.include(:author, :comments).fetch
     last_comment = articles.first.comments.last
 
-    expect(last_comment.author) # This wasn't loaded... shouldn't explode
+    expect(last_comment.author).to be_a(String)
   end
 
   it 'can force a reload of a relationship' do

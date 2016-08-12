@@ -253,7 +253,7 @@ article.comments #=> Munson::Collection<Comment>
 article.author.first_name #=> Chauncy
 ```
 
-
+If relationships are not embedded, in the above example `article.author` would return the `id` (or `id`s if a `has_many`).
 
 ## Configuration
 

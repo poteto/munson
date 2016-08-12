@@ -128,12 +128,7 @@ module Munson
       if resource
         Document.new(data: resource, included: included)
       else
-        raise RelationshipNotIncludedError, <<-ERR
-        The relationship `#{relationship[:type]}` was called,
-        but it was not included in the request.
-
-        Try adding `include=#{relationship[:type]}` to your query.
-        ERR
+        relationship[:id]
       end
     end
   end

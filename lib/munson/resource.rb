@@ -124,7 +124,12 @@ class Munson::Resource
         def #{relation_name}
           return @_#{relation_name}_relationship if @_#{relation_name}_relationship
           related_document = document.relationship(:#{relation_name})
-          @_#{relation_name}_relationship = Munson.factory(related_document)
+          if related_document.is_a?(Munson::Document)
+            document = Munson.factory(related_document)
+          else
+            document = related_document
+          end
+          @_#{relation_name}_relationship = document
         end
       RUBY
     end
@@ -133,8 +138,12 @@ class Munson::Resource
       class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def #{relation_name}
           return @_#{relation_name}_relationship if @_#{relation_name}_relationship
-          documents  = document.relationship(:#{relation_name})
-          collection = Munson::Collection.new(documents.map{ |doc| Munson.factory(doc) })
+          documents = document.relationship(:#{relation_name})
+          if !documents.empty? && documents.all? { |d| d.is_a?(Munson::Document) }
+            collection = Munson::Collection.new(documents.map{ |doc| Munson.factory(doc) })
+          else
+            collection = documents
+          end
           @_#{relation_name}_relationship = collection
         end
       RUBY

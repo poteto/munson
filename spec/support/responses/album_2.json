@@ -1,0 +1,24 @@
+{
+  "data": {
+    "type": "albums",
+    "id": "2",
+    "attributes": {
+      "title": "Potato Chips and Chill"
+    },
+    "links": {
+      "self": "http://api.example.com/albums/2"
+    },
+    "relationships": {
+      "artists": {
+        "data": [
+          { "type": "artists", "id": "9" },
+          { "type": "artists", "id": "10" }
+        ],
+        "links": {
+          "self": "http://api.example.com/albums/2/relationships/artist",
+          "related": "http://api.example.com/albums/2/artist"
+        }
+      }
+    }
+  }
+}

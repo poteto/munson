@@ -12,25 +12,19 @@ RSpec.describe Munson::Document do
       end
     end
 
-    context "when the relationships was not included" do
-      it "raises a Munson::RelationshipNotFound error" do
-        document = Munson::Document.new({
-          data: {
-            type: :things,
-            id: "1",
-            relationships: {
-              foos: {
-                data: [
-                  { type: :foos, id: "1" },
-                  { type: :foos, id: "2" }
-                ]
-              }
-            }
-          }
-        })
+    context "when the relationship is not embedded" do
+      it "returns the id" do
+        json = response_json(:album_1)
+        artist = Munson::Document.new(json)
 
-        expect{ document.relationship(:foos) }.
-          to raise_error(Munson::RelationshipNotIncludedError)
+        expect(artist.relationship(:artist)).to be_a(String)
+      end
+
+      it "returns ids" do
+        json = response_json(:album_2)
+        artist = Munson::Document.new(json)
+
+        expect(artist.relationship(:artists)).to be_a(Array)
       end
     end
 
